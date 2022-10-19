@@ -258,10 +258,12 @@ function buildRoutes() {
       <Route
         path="/organizations/:orgId/data-export/:dataExportId"
         component={make(() => import('sentry/views/dataExport/dataDownload'))}
+        key="cd-data-export"
       />
       <Route
         path="/organizations/:orgId/disabled-member/"
         component={make(() => import('sentry/views/disabledMember'))}
+        key="cd-disabled-member"
       />
       {usingCustomerDomain ? (
         <Route
@@ -965,7 +967,7 @@ function buildRoutes() {
     <Route path="/settings/" name={t('Settings')} component={SettingsWrapper}>
       <IndexRoute component={make(() => import('sentry/views/settings/settingsIndex'))} />
       {accountSettingsRoutes}
-      <Route path=":orgId/" name={t('Organization')}>
+      <Route path=":orgId/" name={t('Organization')} key="cd-settings">
         {orgSettingsRoutes}
         {projectSettingsRoutes}
         {legacySettingsRedirects}
@@ -974,7 +976,7 @@ function buildRoutes() {
   );
 
   const projectsRoutes = (
-    <Route path="/organizations/:orgId/projects/">
+    <Route path="/organizations/:orgId/projects/" key="cd-projects">
       <IndexRoute component={make(() => import('sentry/views/projectsDashboard'))} />
       <Route
         path="new/"
@@ -1010,12 +1012,14 @@ function buildRoutes() {
       <Route
         path="/organizations/:orgId/dashboards/"
         component={make(() => import('sentry/views/dashboardsV2'))}
+        key="cd-dashboards"
       >
         <IndexRoute component={make(() => import('sentry/views/dashboardsV2/manage'))} />
       </Route>
       <Route
         path="/organizations/:orgId/dashboards/new/"
         component={make(() => import('sentry/views/dashboardsV2/create'))}
+        key="cd-dashboards-new"
       >
         <Route
           path="widget/:widgetIndex/edit/"
@@ -1029,6 +1033,7 @@ function buildRoutes() {
       <Route
         path="/organizations/:orgId/dashboards/new/:templateId"
         component={make(() => import('sentry/views/dashboardsV2/create'))}
+        key="cd-dashboards-new-template"
       >
         <Route
           path="widget/:widgetId/"
@@ -1042,6 +1047,7 @@ function buildRoutes() {
       <Route
         path="/organizations/:orgId/dashboard/:dashboardId/"
         component={make(() => import('sentry/views/dashboardsV2/view'))}
+        key="cd-dashboards-dashboard-id"
       >
         <Route
           path="widget/:widgetIndex/edit/"
@@ -1063,6 +1069,7 @@ function buildRoutes() {
     <Route
       path="/organizations/:orgId/alerts/"
       component={make(() => import('sentry/views/alerts'))}
+      key="cd-alerts"
     >
       <IndexRoute component={make(() => import('sentry/views/alerts/list/incidents'))} />
       <Route path="rules/">
@@ -1142,19 +1149,23 @@ function buildRoutes() {
     <Route
       path="/organizations/:orgId/monitors/"
       component={make(() => import('sentry/views/monitors'))}
+      key="cd-monitors"
     >
       <IndexRoute component={make(() => import('sentry/views/monitors/monitors'))} />
       <Route
         path="/organizations/:orgId/monitors/create/"
         component={make(() => import('sentry/views/monitors/create'))}
+        key="cd-monitors-create"
       />
       <Route
         path="/organizations/:orgId/monitors/:monitorId/"
         component={make(() => import('sentry/views/monitors/details'))}
+        key="cd-monitors-monitor-id"
       />
       <Route
         path="/organizations/:orgId/monitors/:monitorId/edit/"
         component={make(() => import('sentry/views/monitors/edit'))}
+        key="cd-monitors-edit"
       />
     </Route>
   );
@@ -1163,6 +1174,7 @@ function buildRoutes() {
     <Route
       path="/organizations/:orgId/replays/"
       component={make(() => import('sentry/views/replays'))}
+      key="cd-replays"
     >
       <IndexRoute component={make(() => import('sentry/views/replays/replays'))} />
       <Route
@@ -1173,7 +1185,7 @@ function buildRoutes() {
   );
 
   const releasesRoutes = (
-    <Route path="/organizations/:orgId/releases/">
+    <Route path="/organizations/:orgId/releases/" key="cd-releases">
       <IndexRoute component={make(() => import('sentry/views/releases/list'))} />
       <Route
         path=":release/"
@@ -1204,11 +1216,12 @@ function buildRoutes() {
     <Route
       path="/organizations/:orgId/activity/"
       component={make(() => import('sentry/views/organizationActivity'))}
+      key="cd-activity"
     />
   );
 
   const statsRoutes = (
-    <Route path="/organizations/:orgId/stats/">
+    <Route path="/organizations/:orgId/stats/" key="cd-stats">
       <IndexRoute component={make(() => import('sentry/views/organizationStats'))} />
       <Route
         path="issues/"
@@ -1284,13 +1297,17 @@ function buildRoutes() {
     <Route
       path="/organizations/:orgId/performance/"
       component={make(() => import('sentry/views/performance'))}
+      key="cd-performance"
     >
       <IndexRoute component={make(() => import('sentry/views/performance/content'))} />
       <Route
         path="trends/"
         component={make(() => import('sentry/views/performance/trends'))}
       />
-      <Route path="/organizations/:orgId/performance/summary/">
+      <Route
+        path="/organizations/:orgId/performance/summary/"
+        key="cd-performance-summary"
+      >
         <IndexRoute
           component={make(
             () =>
@@ -1364,6 +1381,7 @@ function buildRoutes() {
     <Route
       path="/organizations/:orgId/user-feedback/"
       component={make(() => import('sentry/views/userFeedback'))}
+      key="cd-user-feedback"
     />
   );
 
@@ -1371,6 +1389,7 @@ function buildRoutes() {
     <Route
       path="/organizations/:orgId/issues/(searches/:searchId/)"
       component={errorHandler(IssueListContainer)}
+      key="cd-issues"
     >
       <Redirect from="/organizations/:orgId/" to="/organizations/:orgId/issues/" />
       <IndexRoute component={errorHandler(IssueListOverview)} />
@@ -1383,6 +1402,7 @@ function buildRoutes() {
     <Route
       path="/organizations/:orgId/issues/:groupId/"
       component={make(() => import('sentry/views/organizationGroupDetails'))}
+      key="cd-issues-group-id"
     >
       <IndexRoute
         component={make(
@@ -1580,7 +1600,7 @@ function buildRoutes() {
   const legacyOrganizationRootRoutes = (
     <Route component={errorHandler(OrganizationRoot)}>
       <Redirect from="/organizations/:orgId/teams/new/" to="/settings/:orgId/teams/" />
-      <Route path="/organizations/:orgId/">
+      <Route path="/organizations/:orgId/" key="cd-legacy-org-routes">
         {hook('routes:organization')}
         <Redirect from="/organizations/:orgId/teams/" to="/settings/:orgId/teams/" />
         <Redirect
@@ -1634,6 +1654,7 @@ function buildRoutes() {
     <Route
       path="/:orgId/:projectId/getting-started/"
       component={make(() => import('sentry/views/projectInstall/gettingStarted'))}
+      key="cd-getting-started"
     >
       <IndexRoute
         component={make(() => import('sentry/views/projectInstall/overview'))}
@@ -1653,7 +1674,7 @@ function buildRoutes() {
   // XXX(epurkhiser): Can these be moved over to the legacyOrgRedirects routes,
   // or do these need to be nested into the OrganizationDetails tree?
   const legacyOrgRedirects = (
-    <Route path="/:orgId/:projectId/">
+    <Route path="/:orgId/:projectId/" key="cd-legacy-org-redirects">
       <IndexRoute
         component={errorHandler(
           redirectDeprecatedProjectRoute(
@@ -1739,6 +1760,7 @@ function buildRoutes() {
     <Route
       path="/organizations/:orgId/profiling/"
       component={make(() => import('sentry/views/profiling'))}
+      key="cd-profiling"
     >
       <IndexRoute component={make(() => import('sentry/views/profiling/content'))} />
       <Route
@@ -1786,7 +1808,7 @@ function buildRoutes() {
   );
 
   const legacyRedirectRoutes = (
-    <Route path="/:orgId/">
+    <Route path="/:orgId/" key="cd-legacy-redirect-routes">
       <IndexRedirect to="/organizations/:orgId/" />
       <Route path=":projectId/settings/">
         <Redirect from="teams/" to="/settings/:orgId/projects/:projectId/teams/" />
