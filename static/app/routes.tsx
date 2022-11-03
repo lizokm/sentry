@@ -1042,7 +1042,7 @@ function buildRoutes() {
         </Route>
         <Route
           path="/organizations/:orgId/dashboards/"
-          component={make(() => import('sentry/views/dashboardsV2'))}
+          component={withDomainRedirect(make(() => import('sentry/views/dashboardsV2')))}
           key="cd-dashboards"
         >
           <IndexRoute
@@ -1069,7 +1069,9 @@ function buildRoutes() {
         </Route>
         <Route
           path="/organizations/:orgId/dashboards/new/"
-          component={make(() => import('sentry/views/dashboardsV2/create'))}
+          component={withDomainRedirect(
+            make(() => import('sentry/views/dashboardsV2/create'))
+          )}
           key="cd-dashboards-new"
         >
           <Route
@@ -1097,7 +1099,9 @@ function buildRoutes() {
         </Route>
         <Route
           path="/organizations/:orgId/dashboards/new/:templateId"
-          component={make(() => import('sentry/views/dashboardsV2/create'))}
+          component={withDomainRedirect(
+            make(() => import('sentry/views/dashboardsV2/create'))
+          )}
           key="cd-dashboards-new-template"
         >
           <Route
@@ -1133,7 +1137,9 @@ function buildRoutes() {
         </Route>
         <Route
           path="/organizations/:orgId/dashboard/:dashboardId/"
-          component={make(() => import('sentry/views/dashboardsV2/view'))}
+          component={withDomainRedirect(
+            make(() => import('sentry/views/dashboardsV2/view'))
+          )}
           key="cd-dashboards-dashboard-id"
         >
           <Route
