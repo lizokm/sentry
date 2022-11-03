@@ -1487,14 +1487,23 @@ function buildRoutes() {
   );
 
   const issueListRoutes = (
-    <Route
-      path="/organizations/:orgId/issues/(searches/:searchId/)"
-      component={errorHandler(IssueListContainer)}
-      key="cd-issues"
-    >
-      <Redirect from="/organizations/:orgId/" to="/organizations/:orgId/issues/" />
-      <IndexRoute component={errorHandler(IssueListOverview)} />
-    </Route>
+    <Fragment>
+      <Route
+        path="/issues/(searches/:searchId/)"
+        component={withDomainRequired(errorHandler(IssueListContainer))}
+        key="orgless-issues-route"
+      >
+        <IndexRoute component={errorHandler(IssueListOverview)} />
+      </Route>
+      <Route
+        path="/organizations/:orgId/issues/(searches/:searchId/)"
+        component={errorHandler(IssueListContainer)}
+        key="cd-issues"
+      >
+        <Redirect from="/organizations/:orgId/" to="/organizations/:orgId/issues/" />
+        <IndexRoute component={errorHandler(IssueListOverview)} />
+      </Route>
+    </Fragment>
   );
 
   // Once org issues is complete, these routes can be nested under
