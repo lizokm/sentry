@@ -1009,14 +1009,20 @@ function buildRoutes() {
 
   const projectsRoutes = (
     <Fragment>
+      {usingCustomerDomain ? (
+        <Route
+          path="/projects/"
+          component={withDomainRequired(NoOp)}
+          key="orgless-projects-route"
+        >
+          {projectsChildRoutes}
+        </Route>
+      ) : null}
       <Route
-        path="/projects/"
-        component={withDomainRequired(NoOp)}
-        key="orgless-projects-route"
+        path="/organizations/:orgId/projects/"
+        component={withDomainRedirect(NoOp)}
+        key="org-projects"
       >
-        {projectsChildRoutes}
-      </Route>
-      <Route path="/organizations/:orgId/projects/" key="cd-projects">
         {projectsChildRoutes}
       </Route>
     </Fragment>
