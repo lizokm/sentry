@@ -1480,7 +1480,7 @@ function buildRoutes() {
       />
       <Route
         path="/organizations/:orgId/user-feedback/"
-        component={make(() => import('sentry/views/userFeedback'))}
+        component={withDomainRedirect(make(() => import('sentry/views/userFeedback')))}
         key="cd-user-feedback"
       />
     </Fragment>
