@@ -975,8 +975,8 @@ function buildRoutes() {
     </Route>
   );
 
-  const projectsRoutes = (
-    <Route path="/organizations/:orgId/projects/" key="cd-projects">
+  const projectsChildRoutes = (
+    <Fragment>
       <IndexRoute component={make(() => import('sentry/views/projectsDashboard'))} />
       <Route
         path="new/"
@@ -1004,7 +1004,22 @@ function buildRoutes() {
         path=":projectId/events/:eventId/"
         component={errorHandler(ProjectEventRedirect)}
       />
-    </Route>
+    </Fragment>
+  );
+
+  const projectsRoutes = (
+    <Fragment>
+      <Route
+        path="/projects/"
+        component={withDomainRequired(NoOp)}
+        key="orgless-projects-route"
+      >
+        {projectsChildRoutes}
+      </Route>
+      <Route path="/organizations/:orgId/projects/" key="cd-projects">
+        {projectsChildRoutes}
+      </Route>
+    </Fragment>
   );
 
   const dashboardRoutes = (
