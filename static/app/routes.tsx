@@ -1497,7 +1497,7 @@ function buildRoutes() {
       </Route>
       <Route
         path="/organizations/:orgId/issues/(searches/:searchId/)"
-        component={errorHandler(IssueListContainer)}
+        component={withDomainRedirect(errorHandler(IssueListContainer))}
         key="cd-issues"
       >
         <Redirect from="/organizations/:orgId/" to="/organizations/:orgId/issues/" />
