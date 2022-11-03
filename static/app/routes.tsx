@@ -1030,59 +1030,126 @@ function buildRoutes() {
 
   const dashboardRoutes = (
     <Fragment>
-      <Route
-        path="/organizations/:orgId/dashboards/"
-        component={make(() => import('sentry/views/dashboardsV2'))}
-        key="cd-dashboards"
-      >
-        <IndexRoute component={make(() => import('sentry/views/dashboardsV2/manage'))} />
-      </Route>
-      <Route
-        path="/organizations/:orgId/dashboards/new/"
-        component={make(() => import('sentry/views/dashboardsV2/create'))}
-        key="cd-dashboards-new"
-      >
+      <Fragment>
         <Route
-          path="widget/:widgetIndex/edit/"
-          component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
-        />
+          path="/dashboards/"
+          component={withDomainRequired(make(() => import('sentry/views/dashboardsV2')))}
+          key="orgless-dashboards-route"
+        >
+          <IndexRoute
+            component={make(() => import('sentry/views/dashboardsV2/manage'))}
+          />
+        </Route>
         <Route
-          path="widget/new/"
-          component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
-        />
-      </Route>
-      <Route
-        path="/organizations/:orgId/dashboards/new/:templateId"
-        component={make(() => import('sentry/views/dashboardsV2/create'))}
-        key="cd-dashboards-new-template"
-      >
+          path="/organizations/:orgId/dashboards/"
+          component={make(() => import('sentry/views/dashboardsV2'))}
+          key="cd-dashboards"
+        >
+          <IndexRoute
+            component={make(() => import('sentry/views/dashboardsV2/manage'))}
+          />
+        </Route>
+      </Fragment>
+      <Fragment>
         <Route
-          path="widget/:widgetId/"
+          path="/dashboards/new/"
+          component={withDomainRequired(
+            make(() => import('sentry/views/dashboardsV2/create'))
+          )}
+          key="orgless-dashboards-new-route"
+        >
+          <Route
+            path="widget/:widgetIndex/edit/"
+            component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
+          />
+          <Route
+            path="widget/new/"
+            component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
+          />
+        </Route>
+        <Route
+          path="/organizations/:orgId/dashboards/new/"
           component={make(() => import('sentry/views/dashboardsV2/create'))}
-        />
-      </Route>
+          key="cd-dashboards-new"
+        >
+          <Route
+            path="widget/:widgetIndex/edit/"
+            component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
+          />
+          <Route
+            path="widget/new/"
+            component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
+          />
+        </Route>
+      </Fragment>
+      <Fragment>
+        <Route
+          path="/dashboards/new/:templateId"
+          component={withDomainRequired(
+            make(() => import('sentry/views/dashboardsV2/create'))
+          )}
+          key="orgless-dashboards-new-template-route"
+        >
+          <Route
+            path="widget/:widgetId/"
+            component={make(() => import('sentry/views/dashboardsV2/create'))}
+          />
+        </Route>
+        <Route
+          path="/organizations/:orgId/dashboards/new/:templateId"
+          component={make(() => import('sentry/views/dashboardsV2/create'))}
+          key="cd-dashboards-new-template"
+        >
+          <Route
+            path="widget/:widgetId/"
+            component={make(() => import('sentry/views/dashboardsV2/create'))}
+          />
+        </Route>
+      </Fragment>
       <Redirect
         from="/organizations/:orgId/dashboards/:dashboardId/"
         to="/organizations/:orgId/dashboard/:dashboardId/"
       />
-      <Route
-        path="/organizations/:orgId/dashboard/:dashboardId/"
-        component={make(() => import('sentry/views/dashboardsV2/view'))}
-        key="cd-dashboards-dashboard-id"
-      >
+      <Fragment>
         <Route
-          path="widget/:widgetIndex/edit/"
-          component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
-        />
+          path="/dashboard/:dashboardId/"
+          component={withDomainRequired(
+            make(() => import('sentry/views/dashboardsV2/view'))
+          )}
+          key="orgless-dashboards-dashboard-id-route"
+        >
+          <Route
+            path="widget/:widgetIndex/edit/"
+            component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
+          />
+          <Route
+            path="widget/new/"
+            component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
+          />
+          <Route
+            path="widget/:widgetId/"
+            component={make(() => import('sentry/views/dashboardsV2/view'))}
+          />
+        </Route>
         <Route
-          path="widget/new/"
-          component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
-        />
-        <Route
-          path="widget/:widgetId/"
+          path="/organizations/:orgId/dashboard/:dashboardId/"
           component={make(() => import('sentry/views/dashboardsV2/view'))}
-        />
-      </Route>
+          key="cd-dashboards-dashboard-id"
+        >
+          <Route
+            path="widget/:widgetIndex/edit/"
+            component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
+          />
+          <Route
+            path="widget/new/"
+            component={make(() => import('sentry/views/dashboardsV2/widgetBuilder'))}
+          />
+          <Route
+            path="widget/:widgetId/"
+            component={make(() => import('sentry/views/dashboardsV2/view'))}
+          />
+        </Route>
+      </Fragment>
     </Fragment>
   );
 
