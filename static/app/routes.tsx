@@ -1642,7 +1642,9 @@ function buildRoutes() {
     <Fragment>
       <Route
         path="/organizations/:orgId/issues/:groupId/"
-        component={make(() => import('sentry/views/organizationGroupDetails'))}
+        component={withDomainRedirect(
+          make(() => import('sentry/views/organizationGroupDetails'))
+        )}
         key="cd-issues-group-id"
       >
         {issueDetailsChildRoutes}
