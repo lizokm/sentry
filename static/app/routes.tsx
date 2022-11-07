@@ -1283,35 +1283,60 @@ function buildRoutes() {
     </Fragment>
   );
 
-  const monitorsChildRoutes = (
-    <Fragment>
-      <IndexRoute component={make(() => import('sentry/views/monitors/monitors'))} />
-      <Route
-        path="/organizations/:orgId/monitors/create/"
-        component={make(() => import('sentry/views/monitors/create'))}
-        key="cd-monitors-create"
-      />
-      <Route
-        path="/organizations/:orgId/monitors/:monitorId/"
-        component={make(() => import('sentry/views/monitors/details'))}
-        key="cd-monitors-monitor-id"
-      />
-      <Route
-        path="/organizations/:orgId/monitors/:monitorId/edit/"
-        component={make(() => import('sentry/views/monitors/edit'))}
-        key="cd-monitors-edit"
-      />
-    </Fragment>
-  );
+  const monitorsChildRoutes = ({forCustomerDomain}: {forCustomerDomain: boolean}) => {
+    return (
+      <Fragment>
+        <IndexRoute component={make(() => import('sentry/views/monitors/monitors'))} />
+        <Route
+          path={
+            forCustomerDomain
+              ? '/monitors/create/'
+              : '/organizations/:orgId/monitors/create/'
+          }
+          component={make(() => import('sentry/views/monitors/create'))}
+          key={forCustomerDomain ? 'orgless-monitors-create' : 'cd-monitors-create'}
+        />
+        <Route
+          path={
+            forCustomerDomain
+              ? '/monitors/:monitorId/'
+              : '/organizations/:orgId/monitors/:monitorId/'
+          }
+          component={make(() => import('sentry/views/monitors/details'))}
+          key={
+            forCustomerDomain ? 'orgless-monitors-monitor-id' : 'cd-monitors-monitor-id'
+          }
+        />
+        <Route
+          path={
+            forCustomerDomain
+              ? '/monitors/:monitorId/edit/'
+              : '/organizations/:orgId/monitors/:monitorId/edit/'
+          }
+          component={make(() => import('sentry/views/monitors/edit'))}
+          key={forCustomerDomain ? 'orgless-monitors-edit' : 'cd-monitors-edit'}
+        />
+      </Fragment>
+    );
+  };
 
   const monitorsRoutes = (
-    <Route
-      path="/organizations/:orgId/monitors/"
-      component={make(() => import('sentry/views/monitors'))}
-      key="cd-monitors"
-    >
-      {monitorsChildRoutes}
-    </Route>
+    <Fragment>
+      <Route
+        path="/monitors/"
+        component={withDomainRequired(make(() => import('sentry/views/monitors')))}
+        key="orgless-monitors-route"
+      >
+        {monitorsChildRoutes({forCustomerDomain: true})}
+      </Route>
+      <Route
+        path="/organizations/:orgId/monitors/"
+        component={withDomainRedirect(make(() => import('sentry/views/monitors')))}
+        key="cd-monitors"
+      >
+        {monitorsChildRoutes({forCustomerDomain: false})}
+      </Route>
+    </Fragment>
   );
 
   const replayRoutes = (
