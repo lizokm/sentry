@@ -1478,9 +1478,18 @@ function buildRoutes() {
   };
 
   const statsRoutes = (
-    <Route path="/organizations/:orgId/stats/" key="cd-stats">
-      {statsChildRoutes({forCustomerDomain: false})}
-    </Route>
+    <Fragment>
+      <Route
+        path="/stats/"
+        component={withDomainRequired(NoOp)}
+        key="orgless-stats-route"
+      >
+        {statsChildRoutes({forCustomerDomain: true})}
+      </Route>
+      <Route path="/organizations/:orgId/stats/" key="cd-stats">
+        {statsChildRoutes({forCustomerDomain: false})}
+      </Route>
+    </Fragment>
   );
 
   // TODO(mark) Long term this /queries route should go away and /discover
