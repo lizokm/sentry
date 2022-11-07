@@ -1486,7 +1486,11 @@ function buildRoutes() {
       >
         {statsChildRoutes({forCustomerDomain: true})}
       </Route>
-      <Route path="/organizations/:orgId/stats/" key="cd-stats">
+      <Route
+        path="/organizations/:orgId/stats/"
+        component={withDomainRedirect(NoOp)}
+        key="cd-stats"
+      >
         {statsChildRoutes({forCustomerDomain: false})}
       </Route>
     </Fragment>
