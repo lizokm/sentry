@@ -478,6 +478,8 @@ urlpatterns += [
     url(r"^monitors/", react_page_view, name="monitors"),
     # Activity
     url(r"^activity/", react_page_view, name="activity"),
+    # Stats
+    url(r"^stats/", react_page_view, name="stats"),
     # Releases
     url(r"^releases/", react_page_view, name="releases"),
     # User Feedback
