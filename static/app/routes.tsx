@@ -2075,13 +2075,22 @@ function buildRoutes() {
   );
 
   const profilingRoutes = (
-    <Route
-      path="/organizations/:orgId/profiling/"
-      component={make(() => import('sentry/views/profiling'))}
-      key="cd-profiling"
-    >
-      {profilingChildRoutes}
-    </Route>
+    <Fragment>
+      <Route
+        path="/profiling/"
+        component={withDomainRequired(make(() => import('sentry/views/profiling')))}
+        key="orgless-profiling-route"
+      >
+        {profilingChildRoutes}
+      </Route>
+      <Route
+        path="/organizations/:orgId/profiling/"
+        component={make(() => import('sentry/views/profiling'))}
+        key="cd-profiling"
+      >
+        {profilingChildRoutes}
+      </Route>
+    </Fragment>
   );
 
   const organizationRoutes = (
