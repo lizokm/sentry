@@ -1265,13 +1265,22 @@ function buildRoutes() {
   };
 
   const alertRoutes = (
-    <Route
-      path="/organizations/:orgId/alerts/"
-      component={make(() => import('sentry/views/alerts'))}
-      key="cd-alerts"
-    >
-      {alertChildRoutes({forCustomerDomain: false})}
-    </Route>
+    <Fragment>
+      <Route
+        path="/alerts/"
+        component={withDomainRequired(make(() => import('sentry/views/alerts')))}
+        key="orgless-alerts-route"
+      >
+        {alertChildRoutes({forCustomerDomain: true})}
+      </Route>
+      <Route
+        path="/organizations/:orgId/alerts/"
+        component={make(() => import('sentry/views/alerts'))}
+        key="cd-alerts"
+      >
+        {alertChildRoutes({forCustomerDomain: false})}
+      </Route>
+    </Fragment>
   );
 
   const monitorsRoutes = (
