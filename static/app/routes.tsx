@@ -1446,30 +1446,40 @@ function buildRoutes() {
     </Fragment>
   );
 
+  const statsChildRoutes = ({forCustomerDomain}: {forCustomerDomain: boolean}) => {
+    return (
+      <Fragment>
+        <IndexRoute component={make(() => import('sentry/views/organizationStats'))} />
+        <Route
+          path="issues/"
+          component={make(() => import('sentry/views/organizationStats/teamInsights'))}
+        >
+          <IndexRoute
+            component={make(
+              () => import('sentry/views/organizationStats/teamInsights/issues')
+            )}
+          />
+        </Route>
+        <Route
+          path="health/"
+          component={make(() => import('sentry/views/organizationStats/teamInsights'))}
+        >
+          <IndexRoute
+            component={make(
+              () => import('sentry/views/organizationStats/teamInsights/health')
+            )}
+          />
+        </Route>
+        {forCustomerDomain ? null : (
+          <Redirect from="team/" to="/organizations/:orgId/stats/issues/" />
+        )}
+      </Fragment>
+    );
+  };
+
   const statsRoutes = (
     <Route path="/organizations/:orgId/stats/" key="cd-stats">
-      <IndexRoute component={make(() => import('sentry/views/organizationStats'))} />
-      <Route
-        path="issues/"
-        component={make(() => import('sentry/views/organizationStats/teamInsights'))}
-      >
-        <IndexRoute
-          component={make(
-            () => import('sentry/views/organizationStats/teamInsights/issues')
-          )}
-        />
-      </Route>
-      <Route
-        path="health/"
-        component={make(() => import('sentry/views/organizationStats/teamInsights'))}
-      >
-        <IndexRoute
-          component={make(
-            () => import('sentry/views/organizationStats/teamInsights/health')
-          )}
-        />
-      </Route>
-      <Redirect from="team/" to="/organizations/:orgId/stats/issues/" />
+      {statsChildRoutes({forCustomerDomain: false})}
     </Route>
   );
 
