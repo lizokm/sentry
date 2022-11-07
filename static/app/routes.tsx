@@ -1542,21 +1542,14 @@ function buildRoutes() {
     </Fragment>
   );
 
-  const performanceRoutes = (
-    <Route
-      path="/organizations/:orgId/performance/"
-      component={make(() => import('sentry/views/performance'))}
-      key="cd-performance"
-    >
+  const performanceChildRoutes = (
+    <Fragment>
       <IndexRoute component={make(() => import('sentry/views/performance/content'))} />
       <Route
         path="trends/"
         component={make(() => import('sentry/views/performance/trends'))}
       />
-      <Route
-        path="/organizations/:orgId/performance/summary/"
-        key="cd-performance-summary"
-      >
+      <Route path="summary/">
         <IndexRoute
           component={make(
             () =>
@@ -1623,6 +1616,16 @@ function buildRoutes() {
         path=":eventSlug/"
         component={make(() => import('sentry/views/performance/transactionDetails'))}
       />
+    </Fragment>
+  );
+
+  const performanceRoutes = (
+    <Route
+      path="/organizations/:orgId/performance/"
+      component={make(() => import('sentry/views/performance'))}
+      key="cd-performance"
+    >
+      {performanceChildRoutes}
     </Route>
   );
 
