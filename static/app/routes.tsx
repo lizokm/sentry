@@ -1409,9 +1409,18 @@ function buildRoutes() {
   };
 
   const releasesRoutes = (
-    <Route path="/organizations/:orgId/releases/" key="cd-releases">
-      {releasesChildRoutes({forCustomerDomain: false})}
-    </Route>
+    <Fragment>
+      <Route
+        path="/releases/"
+        component={withDomainRequired(NoOp)}
+        key="orgless-releases-route"
+      >
+        {releasesChildRoutes({forCustomerDomain: true})}
+      </Route>
+      <Route path="/organizations/:orgId/releases/" key="cd-releases">
+        {releasesChildRoutes({forCustomerDomain: false})}
+      </Route>
+    </Fragment>
   );
 
   const activityRoutes = (
