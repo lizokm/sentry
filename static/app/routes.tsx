@@ -1428,11 +1428,22 @@ function buildRoutes() {
   );
 
   const activityRoutes = (
-    <Route
-      path="/organizations/:orgId/activity/"
-      component={make(() => import('sentry/views/organizationActivity'))}
-      key="cd-activity"
-    />
+    <Fragment>
+      <Route
+        path="/activity/"
+        component={withDomainRequired(
+          make(() => import('sentry/views/organizationActivity'))
+        )}
+        key="orgless-activity-route"
+      />
+      <Route
+        path="/organizations/:orgId/activity/"
+        component={withDomainRedirect(
+          make(() => import('sentry/views/organizationActivity'))
+        )}
+        key="cd-activity"
+      />
+    </Fragment>
   );
 
   const statsRoutes = (
