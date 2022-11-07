@@ -2085,7 +2085,7 @@ function buildRoutes() {
       </Route>
       <Route
         path="/organizations/:orgId/profiling/"
-        component={make(() => import('sentry/views/profiling'))}
+        component={withDomainRedirect(make(() => import('sentry/views/profiling')))}
         key="cd-profiling"
       >
         {profilingChildRoutes}
