@@ -1630,7 +1630,7 @@ function buildRoutes() {
       </Route>
       <Route
         path="/organizations/:orgId/performance/"
-        component={make(() => import('sentry/views/performance'))}
+        component={withDomainRedirect(make(() => import('sentry/views/performance')))}
         key="cd-performance"
       >
         {performanceChildRoutes}
