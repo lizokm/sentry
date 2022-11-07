@@ -476,6 +476,8 @@ urlpatterns += [
     url(r"^replays/", react_page_view, name="replays"),
     # Monitors
     url(r"^monitors/", react_page_view, name="monitors"),
+    # Activity
+    url(r"^activity/", react_page_view, name="activity"),
     # Releases
     url(r"^releases/", react_page_view, name="releases"),
     # User Feedback
