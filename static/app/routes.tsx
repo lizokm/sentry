@@ -1350,13 +1350,22 @@ function buildRoutes() {
   );
 
   const replayRoutes = (
-    <Route
-      path="/organizations/:orgId/replays/"
-      component={make(() => import('sentry/views/replays'))}
-      key="cd-replays"
-    >
-      {replayChildRoutes}
-    </Route>
+    <Fragment>
+      <Route
+        path="/replays/"
+        component={withDomainRequired(make(() => import('sentry/views/replays')))}
+        key="orgless-replays-route"
+      >
+        {replayChildRoutes}
+      </Route>
+      <Route
+        path="/organizations/:orgId/replays/"
+        component={make(() => import('sentry/views/replays'))}
+        key="cd-replays"
+      >
+        {replayChildRoutes}
+      </Route>
+    </Fragment>
   );
 
   const releasesRoutes = (
