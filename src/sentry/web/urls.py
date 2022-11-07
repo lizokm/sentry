@@ -472,6 +472,8 @@ urlpatterns += [
     url(r"^discover/", react_page_view, name="discover"),
     # Request to join an organization
     url(r"^join-request/", react_page_view, name="join-request"),
+    # Monitors
+    url(r"^monitors/", react_page_view, name="monitors"),
     # User Feedback
     url(r"^user-feedback/", react_page_view, name="user-feedback"),
     # Organizations
