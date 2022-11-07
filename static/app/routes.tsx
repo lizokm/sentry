@@ -1620,13 +1620,22 @@ function buildRoutes() {
   );
 
   const performanceRoutes = (
-    <Route
-      path="/organizations/:orgId/performance/"
-      component={make(() => import('sentry/views/performance'))}
-      key="cd-performance"
-    >
-      {performanceChildRoutes}
-    </Route>
+    <Fragment>
+      <Route
+        path="/performance/"
+        component={withDomainRequired(make(() => import('sentry/views/performance')))}
+        key="orgless-performance-route"
+      >
+        {performanceChildRoutes}
+      </Route>
+      <Route
+        path="/organizations/:orgId/performance/"
+        component={make(() => import('sentry/views/performance'))}
+        key="cd-performance"
+      >
+        {performanceChildRoutes}
+      </Route>
+    </Fragment>
   );
 
   const userFeedbackRoutes = (
