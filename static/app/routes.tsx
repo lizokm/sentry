@@ -1417,7 +1417,11 @@ function buildRoutes() {
       >
         {releasesChildRoutes({forCustomerDomain: true})}
       </Route>
-      <Route path="/organizations/:orgId/releases/" key="cd-releases">
+      <Route
+        path="/organizations/:orgId/releases/"
+        component={withDomainRedirect(NoOp)}
+        key="cd-releases"
+      >
         {releasesChildRoutes({forCustomerDomain: false})}
       </Route>
     </Fragment>
