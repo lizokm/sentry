@@ -1360,7 +1360,7 @@ function buildRoutes() {
       </Route>
       <Route
         path="/organizations/:orgId/replays/"
-        component={make(() => import('sentry/views/replays'))}
+        component={withDomainRedirect(make(() => import('sentry/views/replays')))}
         key="cd-replays"
       >
         {replayChildRoutes}
