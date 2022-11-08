@@ -558,6 +558,8 @@ urlpatterns += [
     url(r"^releases/", react_page_view, name="releases"),
     # User Feedback
     url(r"^user-feedback/", react_page_view, name="user-feedback"),
+    # Data Export
+    url(r"^data-export/", react_page_view, name="data-export"),
     # Project on-boarding
     url(
         r"^(?P<project_slug>[\w_-]+)/getting-started",
