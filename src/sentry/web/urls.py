@@ -558,6 +558,12 @@ urlpatterns += [
     url(r"^releases/", react_page_view, name="releases"),
     # User Feedback
     url(r"^user-feedback/", react_page_view, name="user-feedback"),
+    # Project on-boarding
+    url(
+        r"^(?P<project_slug>[\w_-]+)/getting-started",
+        react_page_view,
+        name="project-getting-started",
+    ),
     # Organizations
     url(r"^(?P<organization_slug>[\w_-]+)/$", react_page_view, name="sentry-organization-home"),
     url(
