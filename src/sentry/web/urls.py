@@ -560,6 +560,12 @@ urlpatterns += [
     url(r"^user-feedback/", react_page_view, name="user-feedback"),
     # Data Export
     url(r"^data-export/", react_page_view, name="data-export"),
+    # Disabled Member
+    url(
+        r"^disabled-member/",
+        DisabledMemberView.as_view(),
+        name="sentry-customer-domain-organization-disabled-member",
+    ),
     # Project on-boarding
     url(
         r"^(?P<project_slug>[\w_-]+)/getting-started",
