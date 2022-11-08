@@ -270,8 +270,13 @@ function buildRoutes() {
         key="cd-data-export"
       />
       <Route
+        path="/disabled-member/"
+        component={withDomainRequired(make(() => import('sentry/views/disabledMember')))}
+        key="orgless-disabled-member-route"
+      />
+      <Route
         path="/organizations/:orgId/disabled-member/"
-        component={make(() => import('sentry/views/disabledMember'))}
+        component={withDomainRedirect(make(() => import('sentry/views/disabledMember')))}
         key="cd-disabled-member"
       />
       {usingCustomerDomain ? (
