@@ -256,8 +256,17 @@ function buildRoutes() {
         component={make(() => import('sentry/views/organizationCreate'))}
       />
       <Route
+        path="/data-export/:dataExportId"
+        component={withDomainRequired(
+          make(() => import('sentry/views/dataExport/dataDownload'))
+        )}
+        key="orgless-data-export-route"
+      />
+      <Route
         path="/organizations/:orgId/data-export/:dataExportId"
-        component={make(() => import('sentry/views/dataExport/dataDownload'))}
+        component={withDomainRedirect(
+          make(() => import('sentry/views/dataExport/dataDownload'))
+        )}
         key="cd-data-export"
       />
       <Route
