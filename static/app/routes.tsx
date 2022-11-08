@@ -1980,12 +1980,8 @@ function buildRoutes() {
     </Route>
   );
 
-  const gettingStartedRoutes = (
-    <Route
-      path="/:orgId/:projectId/getting-started/"
-      component={make(() => import('sentry/views/projectInstall/gettingStarted'))}
-      key="cd-getting-started"
-    >
+  const gettingStartedChildRoutes = (
+    <Fragment>
       <IndexRoute
         component={make(() => import('sentry/views/projectInstall/overview'))}
       />
@@ -1995,6 +1991,16 @@ function buildRoutes() {
           () => import('sentry/views/projectInstall/platformOrIntegration')
         )}
       />
+    </Fragment>
+  );
+
+  const gettingStartedRoutes = (
+    <Route
+      path="/:orgId/:projectId/getting-started/"
+      component={make(() => import('sentry/views/projectInstall/gettingStarted'))}
+      key="cd-getting-started"
+    >
+      {gettingStartedChildRoutes}
     </Route>
   );
 
