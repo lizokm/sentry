@@ -10,11 +10,14 @@ import {DataCategory, OrgRole, PermissionResource, Scope} from 'sentry/types';
 // This is the element id where we render our React application to
 export const ROOT_ELEMENT = 'blk_router';
 
+const usingCustomerDomain = Boolean(window.__initialData?.customerDomain);
 // This is considered the "default" route/view that users should be taken
 // to when the application does not have any further context
 //
 // e.g. loading app root or switching organization
-export const DEFAULT_APP_ROUTE = '/organizations/:orgSlug/issues/';
+export const DEFAULT_APP_ROUTE = usingCustomerDomain
+  ? '/issues/'
+  : '/organizations/:orgSlug/issues/';
 
 export const API_ACCESS_SCOPES = [
   'project:read',
