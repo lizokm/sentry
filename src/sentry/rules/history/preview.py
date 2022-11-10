@@ -60,7 +60,10 @@ def preview(
             return None
         filter_object = filter_cls(project, data=filter)
         filter_objects.append(filter_object)
-        event_columns.update(filter_object.get_event_columns())
+        try:
+            event_columns.update(filter_object.get_event_columns())
+        except NotImplementedError:
+            return None
 
     filter_func = get_match_function(filter_match)
     if filter_func is None:
